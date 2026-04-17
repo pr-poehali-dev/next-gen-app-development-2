@@ -25,7 +25,7 @@ const HeroSection = () => {
     { icon: "Users", label: "Ожидаемых гостей", value: "1000+" },
     { icon: "Clock", label: "Часов на площадке", value: "3–5" },
     { icon: "Megaphone", label: "Охват соцсетей и СМИ", value: "160К+" },
-    { icon: "CalendarDays", label: "Год проведения", value: "2025" },
+    { icon: "CalendarDays", label: "Проведённых фестивалей", value: "3" },
   ];
 
   const scrollToSection = (id: string) => {
