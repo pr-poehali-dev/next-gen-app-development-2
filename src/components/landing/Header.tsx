@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import Icon from "@/components/ui/icon";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -29,8 +29,8 @@ const Header = () => {
       }`}
     >
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <a href="/" className="text-3xl font-bold tracking-tighter text-white">
-          SoundForge
+        <a href="/" className="text-2xl font-bold tracking-tighter text-white uppercase">
+          Вечно Молодой
         </a>
         <div className="md:hidden">
           <Button
@@ -39,7 +39,7 @@ const Header = () => {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="text-white hover:bg-white/10"
           >
-            {isMenuOpen ? <X /> : <Menu />}
+            {isMenuOpen ? <Icon name="X" /> : <Icon name="Menu" />}
           </Button>
         </div>
         <nav
@@ -50,18 +50,18 @@ const Header = () => {
           <ul className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8 p-4 md:p-0">
             <li>
               <button
-                onClick={() => scrollToSection("licenses")}
+                onClick={() => scrollToSection("about")}
                 className="text-white hover:text-purple-400 transition-colors"
               >
-                Лицензии
+                О фестивале
               </button>
             </li>
             <li>
               <button
-                onClick={() => scrollToSection("about")}
+                onClick={() => scrollToSection("licenses")}
                 className="text-white hover:text-purple-400 transition-colors"
               >
-                Обо мне
+                Партнёрство
               </button>
             </li>
             <li>
@@ -77,11 +77,9 @@ const Header = () => {
         <Button
           variant="outline"
           className="hidden md:block border-white/20 text-white hover:bg-white/10"
-          asChild
+          onClick={() => scrollToSection("contact")}
         >
-          <a href="#" target="_blank" rel="noopener noreferrer">
-            BeatStars
-          </a>
+          Стать партнёром
         </Button>
       </div>
     </header>

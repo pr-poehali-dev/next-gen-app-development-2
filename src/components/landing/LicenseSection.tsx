@@ -1,73 +1,68 @@
 import { useState, useRef, useEffect } from "react";
-import { Check, X, Crown, Zap, Star, Globe } from "lucide-react";
+import { Check, Crown, Zap, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import Icon from "@/components/ui/icon";
 
-interface LicenseOption {
+interface PartnerOption {
   name: string;
-  price: string;
+  label: string;
   icon: React.ReactNode;
   features: string[];
-  notIncluded?: string[];
-  bulkDeal?: string;
   popular?: boolean;
+  highlight?: string;
 }
 
-const licenseOptions: LicenseOption[] = [
+const partnerOptions: PartnerOption[] = [
   {
-    name: "Стандартная лицензия",
-    price: "299 руб",
+    name: "Бомж-пакет",
+    label: "Базовая интеграция 😎",
     icon: <Star className="w-6 h-6" />,
     features: [
-      "Использование для записи музыки",
-      "Распространение до 5 000 копий",
-      "75 000 онлайн-прослушиваний",
-      "1 музыкальный клип",
-      "Коммерческие выступления",
-      "Радиотрансляция (2 станции)",
+      "Лого на афишах",
+      "Упоминание в соцсетях",
+      "Баннер на площадке",
     ],
-    bulkDeal: "КУПИ 1 ТРЕК — ПОЛУЧИ 1 В ПОДАРОК!",
   },
   {
-    name: "Продвинутая лицензия",
-    price: "499 руб",
+    name: "Партнёр",
+    label: "Расширенный пакет",
     icon: <Zap className="w-6 h-6" />,
     features: [
-      "Использование для записи музыки",
-      "Распространение до 10 000 копий",
-      "150 000 онлайн-прослушиваний",
-      "1 музыкальный клип",
-      "Коммерческие выступления",
-      "Радиотрансляция (без ограничений)",
+      "Лого на афишах",
+      "Упоминания в СМИ",
+      "Отдельные посты и сторис",
+      "Баннер на площадке",
+      "Упоминание в фотоотчётах",
     ],
     popular: true,
   },
   {
-    name: "Премиум лицензия",
-    price: "799 руб",
+    name: "Генеральный партнёр",
+    label: "Максимальное присутствие",
     icon: <Crown className="w-6 h-6" />,
     features: [
-      "Использование для записи музыки",
-      "Распространение до 20 000 копий",
-      "500 000 онлайн-прослушиваний",
-      "1 музыкальный клип",
-      "Только некоммерческие выступления",
+      "Лого на всех афишах",
+      "Упоминания в СМИ",
+      "Сторис + отдельные посты",
+      "Баннер на площадке",
+      "Корнер (зона партнёра)",
+      "Упоминание в фотоотчётах",
+      "Брендинг на сцене",
     ],
-    notIncluded: ["Без прав на радиотрансляцию"],
+    highlight: "ТОП интеграция",
   },
-  {
-    name: "Коммерческая лицензия",
-    price: "899 руб",
-    icon: <Globe className="w-6 h-6" />,
-    features: [
-      "Использование для записи музыки",
-      "Неограниченное распространение",
-      "Неограниченные онлайн-прослушивания",
-      "Неограниченное количество клипов",
-      "Коммерческие выступления",
-      "Радиотрансляция (без ограничений)",
-    ],
-  },
+];
+
+const reachData = [
+  { platform: "VK «Вечно молодой»", value: "16 300", icon: "Users" },
+  { platform: "Telegram", value: "4 300", icon: "Send" },
+  { platform: "Instagram", value: "16 000", icon: "Instagram" },
+  { platform: "Едагда (СМИ)", value: "36 600", icon: "Newspaper" },
+  { platform: "Волжский рейв (СМИ)", value: "25 100", icon: "Newspaper" },
+  { platform: "Собака.ru (СМИ)", value: "38 600", icon: "Newspaper" },
+  { platform: "Instagram Триагрутрика", value: "49 600", icon: "Star" },
+  { platform: "ВК Триагрутрика", value: "196 600", icon: "Star" },
 ];
 
 const LicenseSection = () => {
@@ -92,6 +87,11 @@ const LicenseSection = () => {
     return () => observer.disconnect();
   }, []);
 
+  const scrollToContact = () => {
+    const el = document.getElementById("contact");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <section ref={ref} id="licenses" className="py-20 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-900/20 to-black"></div>
@@ -102,15 +102,14 @@ const LicenseSection = () => {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
         >
-          <h2 className="text-5xl md:text-6xl font-bold mb-6 text-white">Выбери свою лицензию</h2>
+          <h2 className="text-5xl md:text-6xl font-bold mb-6 text-white">Пакеты партнёрства</h2>
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
-            Подбери идеальную лицензию под свои потребности и начни создавать потрясающую музыку уже
-            сегодня
+            Выберите формат участия — от базового упоминания до полного брендинга на фестивале
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {licenseOptions.map((option, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+          {partnerOptions.map((option, index) => (
             <div
               key={option.name}
               className={`transition-all duration-500 ${
@@ -136,14 +135,21 @@ const LicenseSection = () => {
                     </span>
                   </div>
                 )}
+                {option.highlight && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
+                    <span className="bg-purple-500 text-white px-4 py-1 rounded-full text-sm font-semibold animate-pulse">
+                      {option.highlight}
+                    </span>
+                  </div>
+                )}
 
                 <CardContent className="relative p-6 rounded-lg h-full flex flex-col">
                   <div className="text-center mb-6">
                     <div className="inline-flex p-3 rounded-full bg-zinc-900 border border-white/10 mb-4">
                       {option.icon}
                     </div>
-                    <h3 className="text-xl font-bold mb-2 text-white">{option.name}</h3>
-                    <div className="text-3xl font-bold text-white">{option.price}</div>
+                    <h3 className="text-xl font-bold mb-1 text-white">{option.name}</h3>
+                    <p className="text-sm text-zinc-400">{option.label}</p>
                   </div>
 
                   <div className="flex-grow">
@@ -154,35 +160,46 @@ const LicenseSection = () => {
                           <span className="text-sm text-zinc-300">{feature}</span>
                         </li>
                       ))}
-                      {option.notIncluded?.map((feature, i) => (
-                        <li key={i} className="flex items-start text-zinc-500">
-                          <X className="h-5 w-5 text-zinc-500 mr-2 shrink-0 mt-0.5" />
-                          <span className="text-sm">{feature}</span>
-                        </li>
-                      ))}
                     </ul>
                   </div>
 
-                  {option.bulkDeal && (
-                    <div className="mb-4">
-                      <p className="text-sm font-semibold text-white bg-white/5 py-2 px-3 rounded-lg border border-white/10 animate-pulse">
-                        {option.bulkDeal}
-                      </p>
-                    </div>
-                  )}
-
                   <Button
                     className="w-full bg-white text-black hover:bg-zinc-200 transition-colors"
-                    asChild
+                    onClick={scrollToContact}
                   >
-                    <a href="#" target="_blank" rel="noopener noreferrer">
-                      Выбрать
-                    </a>
+                    Обсудить условия
                   </Button>
                 </CardContent>
               </Card>
             </div>
           ))}
+        </div>
+
+        <div
+          className={`transition-all duration-700 delay-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+          }`}
+        >
+          <h3 className="text-3xl font-bold text-white text-center mb-8">Наш охват</h3>
+          <p className="text-center text-zinc-400 mb-10 text-lg">
+            Суммарный охват соцсетей и СМИ — около <span className="text-white font-bold">160 000</span> +&nbsp;
+            соцсети хедлайнеров ещё <span className="text-white font-bold">250 000</span>
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+            {reachData.map((item, index) => (
+              <div
+                key={item.platform}
+                className={`bg-zinc-900/50 rounded-xl p-4 border border-white/10 text-center transition-all duration-500 ${
+                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+                }`}
+                style={{ transitionDelay: `${400 + index * 60}ms` }}
+              >
+                <Icon name={item.icon} size={20} className="text-purple-400 mx-auto mb-2" />
+                <div className="text-xl font-bold text-white">{item.value}</div>
+                <div className="text-xs text-zinc-400 mt-1">{item.platform}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
